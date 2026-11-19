@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>結合韻大冒險・太空星際探險</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="font-sans">
+  <!-- 全螢幕背景容器（自動等比縮放 16:9 舞台） -->
+  <div id="viewport" class="viewport">
+    <div id="stage" class="stage" role="application" aria-label="太空星際結合韻探險小遊戲">
+
+      <!-- ==================== 共用太空故事背景 ==================== -->
+      <div class="space-bg" aria-hidden="true">
+        <!-- 柔和星雲光暈 -->
+        <div class="nebula nebula-1"></div>
+        <div class="nebula nebula-2"></div>
+        <div class="nebula nebula-3"></div>
+
+        <!-- 閃爍星點 -->
+        <div class="twinkle t1">✦</div>
+        <div class="twinkle t2">★</div>
+        <div class="twinkle t3">✦</div>
+        <div class="twinkle t4">★</div>
+        <div class="twinkle t5">✦</div>
+        <div class="twinkle t6">✦</div>
+        <div class="twinkle t7">★</div>
+        <div class="twinkle t8">✦</div>
+        <div class="star-dot d1"></div>
+        <div class="star-dot d2"></div>
+        <div class="star-dot d3"></div>
+        <div class="star-dot d4"></div>
+        <div class="star-dot d5"></div>
+        <div class="star-dot d6"></div>
+        <div class="star-dot d7"></div>
+        <div class="star-dot d8"></div>
+
+        <!-- 流星裝飾 -->
+        <div class="shooting-star ss1"></div>
+        <div class="shooting-star ss2"></div>
+
+        <!-- 可愛太空星球與月球地平線 SVG -->
+        <svg class="space-scenery-svg" viewBox="0 0 1280 720" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="planetGold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFE082" />
+              <stop offset="100%" stop-color="#FF9E6D" />
+            </linearGradient>
+            <linearGradient id="planetMint" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#8CEEFF" />
+              <stop offset="100%" stop-color="#5BA8FF" />
+            </linearGradient>
+            <linearGradient id="moonSurface" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#434C96" />
+              <stop offset="100%" stop-color="#292F6B" />
+            </linearGradient>
+            <linearGradient id="moonFront" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#353D82" />
+              <stop offset="100%" stop-color="#20265B" />
+            </linearGradient>
+          </defs>
+
+          <!-- 左上土星光環星球 -->
+          <g class="float-planet-left" transform="translate(105, 118)">
+            <ellipse cx="0" cy="4" rx="70" ry="18" transform="rotate(-18)" fill="none" stroke="#FFE9A3" stroke-width="8" opacity="0.65" />
+            <circle cx="0" cy="0" r="38" fill="url(#planetGold)" />
+            <path d="M-32 -8 Q0 4 34 -12" fill="none" stroke="#FFF4CC" stroke-width="4" stroke-linecap="round" opacity="0.55" />
+            <path d="M-66 15 A70 18 -18 0 0 66 -8" fill="none" stroke="#FFE9A3" stroke-width="8" stroke-linecap="round" opacity="0.88" />
+          </g>
+
+          <!-- 右上薄荷藍小星球 -->
+          <g class="float-planet-right" transform="translate(1152, 134)">
+            <circle cx="0" cy="0" r="30" fill="url(#planetMint)" />
+            <circle cx="-9" cy="-8" r="7" fill="#B8F5FF" opacity="0.6" />
+            <circle cx="11" cy="9" r="5" fill="#468CE6" opacity="0.45" />
+            <circle cx="4" cy="-14" r="3.5" fill="#B8F5FF" opacity="0.5" />
+          </g>
+
+          <!-- 遠方彎月 -->
+          <g transform="translate(268, 72)" opacity="0.82">
+            <path d="M18 0 A20 20 0 1 0 18 36 A15 15 0 1 1 18 0 Z" fill="#FFF2A8" />
+          </g>
+
+          <!-- 底部柔和月球地平線 -->
+          <path d="M0 618 Q280 562 620 604 T1280 590 L1280 720 L0 720 Z" fill="url(#moonSurface)" opacity="0.72" />
+          <path d="M0 648 Q380 605 780 646 T1280 632 L1280 720 L0 720 Z" fill="url(#moonFront)" opacity="0.9" />
+
+          <!-- 可愛月球小隕石坑 -->
+          <ellipse cx="148" cy="668" rx="34" ry="11" fill="#2A306A" opacity="0.65" />
+          <ellipse cx="222" cy="686" rx="18" ry="6" fill="#2A306A" opacity="0.55" />
+          <ellipse cx="1085" cy="666" rx="36" ry="12" fill="#2A306A" opacity="0.65" />
+          <ellipse cx="1156" cy="688" rx="16" ry="5.5" fill="#2A306A" opacity="0.55" />
+          <ellipse cx="640" cy="688" rx="28" ry="8" fill="#2A306A" opacity="0.48" />
+        </svg>
+      </div>
+
+      <!-- 彩帶星光 Canvas（過關慶祝） -->
+      <canvas id="confetti-canvas" class="confetti-canvas" width="1280" height="720"></canvas>
+
+      <!-- 飛星與粒子動畫層 -->
+      <div id="fx-layer" class="fx-layer" aria-hidden="true"></div>
+
+      <!-- ==================== 畫面一：首頁（設定與開始） ==================== -->
+      <section id="screen-home" class="screen screen-home active" aria-label="首頁設定">
+        <!-- 右上工具列 -->
+        <div class="top-utility-bar home-utility">
+          <button id="btn-font-home" class="util-btn" type="button" title="切換字體（黑體 / 標楷體）">
+            <span class="util-icon">字</span>
+            <span class="util-label font-toggle-label">黑體</span>
+          </button>
+          <button id="btn-sound-home" class="util-btn sound-toggle-btn" type="button" title="開啟或關閉音效">
+            <span class="util-icon sound-icon">🔊</span>
+            <span class="util-label sound-label">音效開</span>
+          </button>
+          <button id="btn-fullscreen-home" class="util-btn fullscreen-btn" type="button" title="切換全螢幕">
+            <span class="util-icon">⛶</span>
+            <span class="util-label">全螢幕</span>
+          </button>
+        </div>
+
+        <!-- 標題區 -->
+        <header class="home-header">
+          <div class="home-badge">🚀 結合韻 挑戰 🚀</div>
+          <h1 class="home-title">
+            <span class="title-star">⭐</span>
+            太空星際結合韻探險
+            <span class="title-star">⭐</span>
+          </h1>
+          <p class="home-subtitle">先大聲唸出結合韻，再找出正確的星球圖卡收集閃亮星星！</p>
+        </header>
+
+        <!-- 主設定卡片 -->
+        <main class="home-panel">
+          <!-- 第一區：選擇關卡模式 -->
+          <div class="setting-block">
+            <div class="setting-heading">1. 選擇探險關卡</div>
+            <div class="mode-grid" id="mode-options" role="radiogroup" aria-label="關卡模式">
+              <button class="mode-card mode-learn selected" data-mode="learn" type="button" role="radio" aria-checked="true">
+                <div class="mode-top">
+                  <span class="mode-emoji">🌱</span>
+                  <span class="mode-name">學習模式</span>
+                  <span class="mode-chip">1 張圖</span>
+                </div>
+                <div class="mode-desc">看一張圖片，輕鬆認識結合韻語詞</div>
+              </button>
+
+              <button class="mode-card mode-practice" data-mode="practice" type="button" role="radio" aria-checked="false">
+                <div class="mode-top">
+                  <span class="mode-emoji">🚀</span>
+                  <span class="mode-name">練習模式</span>
+                  <span class="mode-chip">2 選 1</span>
+                </div>
+                <div class="mode-desc">從兩張圖片中，找出正確的圖案</div>
+              </button>
+
+              <button class="mode-card mode-challenge" data-mode="challenge" type="button" role="radio" aria-checked="false">
+                <div class="mode-top">
+                  <span class="mode-emoji">🌟</span>
+                  <span class="mode-name">挑戰模式</span>
+                  <span class="mode-chip">3 選 1</span>
+                </div>
+                <div class="mode-desc">從三張圖片中，挑戰找出正確圖案</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- 第二區：結合韻範圍 + 題數 -->
+          <div class="setting-row">
+            <div class="setting-block scope-block">
+              <div class="setting-heading">2. 選擇結合韻範圍</div>
+              <div class="scope-grid" id="scope-options" role="radiogroup" aria-label="結合韻範圍">
+                <button class="scope-btn selected" data-scope="yi" type="button" role="radio" aria-checked="true">
+                  <span class="scope-zhuyin">ㄧ</span>
+                  <span class="scope-meta">27 組</span>
+                </button>
+                <button class="scope-btn" data-scope="wu" type="button" role="radio" aria-checked="false">
+                  <span class="scope-zhuyin">ㄨ</span>
+                  <span class="scope-meta">23 組</span>
+                </button>
+                <button class="scope-btn" data-scope="yu" type="button" role="radio" aria-checked="false">
+                  <span class="scope-zhuyin">ㄩ</span>
+                  <span class="scope-meta">10 組</span>
+                </button>
+                <button class="scope-btn" data-scope="all" type="button" role="radio" aria-checked="false">
+                  <span class="scope-zhuyin scope-all-text">全部</span>
+                  <span class="scope-meta">60 組</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="setting-block count-block">
+              <div class="setting-heading">3. 選擇題數</div>
+              <div class="pill-group" id="count-options" role="radiogroup" aria-label="題數選擇">
+                <button class="pill-btn selected" data-count="5" type="button" role="radio" aria-checked="true">⭐ 5 題</button>
+                <button class="pill-btn" data-count="10" type="button" role="radio" aria-checked="false">10 題</button>
+                <button class="pill-btn" data-count="15" type="button" role="radio" aria-checked="false" id="btn-count-15">15 題</button>
+                <button class="pill-btn" data-count="all" type="button" role="radio" aria-checked="false" id="btn-count-all">全部（27 題）</button>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <!-- 開始按鈕與太空迎賓夥伴 -->
+        <footer class="home-footer">
+          <div class="home-mascot home-mascot-left" id="home-mascot-left" aria-hidden="true"></div>
+
+          <button id="btn-start" class="btn-start" type="button">
+            <span class="btn-start-icon">🚀</span>
+            <span>出發太空探險</span>
+            <span class="btn-start-arrow">▶</span>
+          </button>
+
+          <div class="home-mascot home-mascot-right" id="home-mascot-right" aria-hidden="true"></div>
+        </footer>
+      </section>
+
+      <!-- ==================== 畫面二：遊戲主畫面 ==================== -->
+      <section id="screen-game" class="screen screen-game" aria-label="結合韻探險畫面">
+        <!-- 頂部狀態列 -->
+        <header class="game-topbar">
+          <div class="topbar-left">
+            <button id="btn-back-home" class="home-nav-btn" type="button" title="回到首頁">
+              <span>🏠</span>
+              <span>首頁</span>
+            </button>
+            <div id="game-mode-badge" class="mode-badge badge-mode">🌱 學習模式</div>
+            <div id="game-scope-badge" class="mode-badge badge-scope">ㄧ 組</div>
+          </div>
+
+          <!-- 中央星星進度槽 -->
+          <div id="star-progress-wrap" class="star-progress-wrap" aria-live="polite"></div>
+
+          <!-- 右上工具與題數 -->
+          <div class="topbar-right">
+            <div id="progress-pill" class="progress-pill">0 / 5 顆星</div>
+            <button id="btn-font-game" class="util-btn icon-only" type="button" title="切換字體">
+              <span class="util-icon font-toggle-short">黑</span>
+            </button>
+            <button id="btn-sound-game" class="util-btn icon-only sound-toggle-btn" type="button" title="開啟或關閉音效">
+              <span class="util-icon sound-icon">🔊</span>
+            </button>
+            <button id="btn-fullscreen-game" class="util-btn icon-only fullscreen-btn" type="button" title="切換全螢幕">
+              <span class="util-icon">⛶</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- 主遊戲舞台（透過 data-phase 切換「先唸結合韻」與「看圖選答案」） -->
+        <main id="game-arena" class="game-arena" data-phase="read" data-mode="learn">
+
+          <!-- ========== 階段一：先出現結合韻卡片，大聲唸出來 ========== -->
+          <div id="phase-read" class="phase-panel phase-read active">
+            <div class="read-stage-row">
+              <!-- 左側應援太空夥伴 -->
+              <div id="mascot-left" class="stage-mascot stage-mascot-left">
+                <div class="mascot-bubble" id="bubble-left">大聲唸唸看！🚀</div>
+                <div class="mascot-slot" id="mascot-left-svg"></div>
+              </div>
+
+              <!-- 中央超大結合韻卡片 -->
+              <div class="rhyme-hero-wrap">
+                <div class="phase-step-pill">STEP 1・先大聲唸出結合韻</div>
+                <button id="rhyme-card-big" class="rhyme-card-big" type="button" title="唸完後點一下出現圖片">
+                  <span class="card-spark tl">✦</span>
+                  <span class="card-spark tr">✦</span>
+                  <span class="card-spark bl">✦</span>
+                  <span class="card-spark br">✦</span>
+                  <span class="img-frame">
+                    <span class="img-loader" aria-hidden="true"></span>
+                    <img id="rhyme-img-big" class="card-img" src="" alt="結合韻卡片" decoding="async" />
+                  </span>
+                </button>
+              </div>
+
+              <!-- 右側應援太空夥伴 -->
+              <div id="mascot-right" class="stage-mascot stage-mascot-right">
+                <div class="mascot-bubble" id="bubble-right">準備好了嗎？✨</div>
+                <div class="mascot-slot" id="mascot-right-svg"></div>
+              </div>
+            </div>
+
+            <!-- 下方大按鈕（低位設計方便大白板點擊） -->
+            <div class="read-controls">
+              <button id="btn-swap-question" class="ctrl-btn btn-swap" type="button">
+                <span class="ctrl-icon">🔄</span>
+                <span class="ctrl-label">換一題</span>
+              </button>
+
+              <button id="btn-reveal-pics" class="ctrl-btn btn-reveal" type="button">
+                <span class="ctrl-icon">🪐</span>
+                <span class="ctrl-text-stack">
+                  <span class="ctrl-main">我唸完了！出現圖片</span>
+                  <span class="ctrl-sub">點卡片也可以直接出現圖片喔</span>
+                </span>
+                <span class="ctrl-arrow">▶</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ========== 階段二：出現圖片，認識語詞／找出正確圖案 ========== -->
+          <div id="phase-match" class="phase-panel phase-match">
+            <!-- 上方結合韻提示列 -->
+            <div class="match-header-bar">
+              <div class="match-mascot-mini" id="match-mascot-mini">
+                <div class="mini-mascot-slot" id="match-mascot-svg"></div>
+                <div class="mini-bubble" id="match-bubble">找出正確的星球圖卡！✨</div>
+              </div>
+
+              <button id="rhyme-ref-card" class="rhyme-ref-card" type="button" title="點一下放大看結合韻">
+                <span class="ref-tag">結合韻</span>
+                <span class="ref-img-wrap">
+                  <img id="rhyme-img-ref" class="ref-img" src="" alt="目前結合韻" decoding="async" />
+                </span>
+                <span class="ref-zoom-hint">🔍 放大</span>
+              </button>
+
+              <div class="match-guide-pill" id="match-guide-pill">
+                <span class="guide-dot"></span>
+                <span id="match-guide-text">點一點，選出正確的圖案！</span>
+              </div>
+            </div>
+
+            <!-- 中央大圖卡互動區（依關卡呈現 1 / 2 / 3 張圖片） -->
+            <div id="choices-grid" class="choices-grid" role="group" aria-label="圖片選項區"></div>
+
+            <!-- 底部操作列 -->
+            <div class="match-footer">
+              <div id="match-status-hint" class="match-status-hint">✨ 仔細看圖案，點選和結合韻一樣的答案喔！</div>
+              <button id="btn-next-question" class="ctrl-btn btn-next" type="button" hidden>
+                <span class="ctrl-icon">⭐</span>
+                <span id="btn-next-label" class="ctrl-main">太棒了！下一題</span>
+                <span class="ctrl-arrow">▶</span>
+              </button>
+            </div>
+          </div>
+
+        </main>
+      </section>
+
+      <!-- ==================== 畫面三：過關頒獎畫面 ==================== -->
+      <section id="screen-victory" class="screen screen-victory" aria-label="過關慶祝畫面">
+        <div class="victory-content">
+          <div class="victory-crown" aria-hidden="true">
+            <span class="crown-star s-left">⭐</span>
+            <span class="crown-star s-center">🏆</span>
+            <span class="crown-star s-right">⭐</span>
+          </div>
+
+          <h2 id="victory-title" class="victory-title">太棒了！集滿 5 顆太空星星！</h2>
+          <p id="victory-subtitle" class="victory-subtitle">太空夥伴都為你拍拍手，任務圓滿成功！</p>
+
+          <!-- 四位太空夥伴大集合慶祝 -->
+          <div id="victory-mascots" class="victory-mascots" aria-hidden="true"></div>
+
+          <!-- 本回合複習小圖卡總覽（點擊可放大複習） -->
+          <div class="review-box">
+            <div class="review-label">✨ 這一趟一起完成的太空圖卡（點卡片可放大複習）✨</div>
+            <div id="review-grid" class="review-grid"></div>
+          </div>
+
+          <!-- 底部大按鈕 -->
+          <div class="victory-actions">
+            <button id="btn-play-again" class="victory-btn btn-again" type="button">
+              <span>🚀</span>
+              <span>再玩一次</span>
+            </button>
+            <button id="btn-victory-home" class="victory-btn btn-home" type="button">
+              <span>🏠</span>
+              <span>回首頁換關卡</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 返回首頁防誤觸確認視窗 ==================== -->
+      <div id="modal-confirm" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+        <div class="modal-card">
+          <div class="modal-icon">🚀</div>
+          <h3 id="modal-title" class="modal-title">要回到首頁嗎？</h3>
+          <p class="modal-desc">這趟收集的太空星星會重新計算喔！</p>
+          <div class="modal-actions">
+            <button id="btn-modal-cancel" class="modal-btn btn-cancel" type="button">繼續探險</button>
+            <button id="btn-modal-ok" class="modal-btn btn-ok" type="button">回首頁</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== 圖卡放大檢視視窗（白板複習專用） ==================== -->
+      <div id="modal-zoom" class="modal-overlay" role="dialog" aria-modal="true" aria-label="圖卡放大檢視" hidden>
+        <div class="zoom-card">
+          <button id="btn-zoom-close" class="zoom-close-btn" type="button" aria-label="關閉放大視窗">✕</button>
+          <div id="zoom-content" class="zoom-content"></div>
+        </div>
+      </div>
+
+      <!-- 底部版權宣告 -->
+      <div class="site-copyright">© 傑尼爾教育文化事業集團 版權所有</div>
+
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
