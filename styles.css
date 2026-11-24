@@ -85,7 +85,7 @@ body.font-kai button {
   box-shadow: none;
 }
 
-/* ==================== 共用太空背景 ==================== */
+/* ==================== 共用太空繪本背景 ==================== */
 .space-bg {
   position: absolute;
   inset: 0;
@@ -94,37 +94,26 @@ body.font-kai button {
   overflow: hidden;
 }
 
-.nebula {
+.space-bg-img {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(44px);
-  opacity: 0.42;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.nebula-1 {
-  width: 520px;
-  height: 360px;
-  top: -110px;
-  left: -80px;
-  background: radial-gradient(circle, #6B5BFF 0%, transparent 70%);
-}
-
-.nebula-2 {
-  width: 560px;
-  height: 380px;
-  top: -80px;
-  right: -120px;
-  background: radial-gradient(circle, #35C4F5 0%, transparent 72%);
-}
-
-.nebula-3 {
-  width: 680px;
-  height: 300px;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: radial-gradient(circle, #8B6EFF 0%, transparent 70%);
-  opacity: 0.28;
+/* 極柔和的頂部漸層面紗，確保白色標題與頂部狀態列清晰好讀 */
+.space-bg-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(22, 30, 82, 0.34) 0%,
+    rgba(22, 30, 82, 0.08) 38%,
+    rgba(22, 30, 82, 0.04) 78%,
+    rgba(22, 30, 82, 0.08) 100%
+  );
 }
 
 /* 閃爍星星 */
@@ -571,8 +560,8 @@ body.font-kai button {
 }
 
 .home-mascot {
-  width: 150px;
-  height: 150px;
+  width: 168px;
+  height: 168px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -818,8 +807,8 @@ body.font-kai button {
 }
 
 .mascot-slot {
-  width: 185px;
-  height: 185px;
+  width: 204px;
+  height: 204px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1063,8 +1052,8 @@ body.font-kai button {
 }
 
 .mini-mascot-slot {
-  width: 88px;
-  height: 88px;
+  width: 96px;
+  height: 96px;
   flex-shrink: 0;
   animation: mascotFloat 3.4s ease-in-out infinite;
 }
@@ -1445,12 +1434,12 @@ body.font-kai button {
   align-items: center;
   justify-content: center;
   gap: 24px;
-  height: 112px;
+  height: 122px;
 }
 
 .victory-mascot-item {
-  width: 108px;
-  height: 108px;
+  width: 118px;
+  height: 118px;
   animation: mascotJump 1.4s ease-in-out infinite;
 }
 
@@ -1740,12 +1729,14 @@ body.font-kai button {
   font-weight: 900;
 }
 
-/* ==================== 太空夥伴 SVG 共用 ==================== */
-.mascot-svg {
+/* ==================== 太空繪本夥伴插畫共用 ==================== */
+.mascot-img {
   width: 100%;
   height: 100%;
-  overflow: visible;
-  filter: drop-shadow(0 10px 14px rgba(9, 13, 46, 0.38));
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 14px rgba(22, 28, 72, 0.36));
 }
 
 /* ==================== 底部版權宣告 ==================== */
@@ -1756,8 +1747,9 @@ body.font-kai button {
   transform: translateX(-50%);
   z-index: 30;
   font-size: 12px;
-  font-weight: 600;
-  color: rgba(226, 236, 255, 0.72);
+  font-weight: 700;
+  color: #2B356E;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.85);
   letter-spacing: 1px;
   pointer-events: none;
 }
