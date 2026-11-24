@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>結合韻大冒險・太空星際探險</title>
+  <link rel="preload" as="image" href="assets/space-bg.jpg" />
+  <link rel="preload" as="image" href="assets/mascot-bear.png" />
+  <link rel="preload" as="image" href="assets/mascot-bunny.png" />
+  <link rel="preload" as="image" href="assets/mascot-cat.png" />
+  <link rel="preload" as="image" href="assets/mascot-alien.png" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="font-sans">
@@ -11,14 +16,12 @@
   <div id="viewport" class="viewport">
     <div id="stage" class="stage" role="application" aria-label="太空星際結合韻探險小遊戲">
 
-      <!-- ==================== 共用太空故事背景 ==================== -->
+      <!-- ==================== 共用太空繪本背景 ==================== -->
       <div class="space-bg" aria-hidden="true">
-        <!-- 柔和星雲光暈 -->
-        <div class="nebula nebula-1"></div>
-        <div class="nebula nebula-2"></div>
-        <div class="nebula nebula-3"></div>
+        <img class="space-bg-img" src="assets/space-bg.jpg" alt="" decoding="async" />
+        <div class="space-bg-veil"></div>
 
-        <!-- 閃爍星點 -->
+        <!-- 輕柔閃爍星點與流星 -->
         <div class="twinkle t1">✦</div>
         <div class="twinkle t2">★</div>
         <div class="twinkle t3">✦</div>
@@ -27,72 +30,8 @@
         <div class="twinkle t6">✦</div>
         <div class="twinkle t7">★</div>
         <div class="twinkle t8">✦</div>
-        <div class="star-dot d1"></div>
-        <div class="star-dot d2"></div>
-        <div class="star-dot d3"></div>
-        <div class="star-dot d4"></div>
-        <div class="star-dot d5"></div>
-        <div class="star-dot d6"></div>
-        <div class="star-dot d7"></div>
-        <div class="star-dot d8"></div>
-
-        <!-- 流星裝飾 -->
         <div class="shooting-star ss1"></div>
         <div class="shooting-star ss2"></div>
-
-        <!-- 可愛太空星球與月球地平線 SVG -->
-        <svg class="space-scenery-svg" viewBox="0 0 1280 720" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="planetGold" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#FFE082" />
-              <stop offset="100%" stop-color="#FF9E6D" />
-            </linearGradient>
-            <linearGradient id="planetMint" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#8CEEFF" />
-              <stop offset="100%" stop-color="#5BA8FF" />
-            </linearGradient>
-            <linearGradient id="moonSurface" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#434C96" />
-              <stop offset="100%" stop-color="#292F6B" />
-            </linearGradient>
-            <linearGradient id="moonFront" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#353D82" />
-              <stop offset="100%" stop-color="#20265B" />
-            </linearGradient>
-          </defs>
-
-          <!-- 左上土星光環星球 -->
-          <g class="float-planet-left" transform="translate(105, 118)">
-            <ellipse cx="0" cy="4" rx="70" ry="18" transform="rotate(-18)" fill="none" stroke="#FFE9A3" stroke-width="8" opacity="0.65" />
-            <circle cx="0" cy="0" r="38" fill="url(#planetGold)" />
-            <path d="M-32 -8 Q0 4 34 -12" fill="none" stroke="#FFF4CC" stroke-width="4" stroke-linecap="round" opacity="0.55" />
-            <path d="M-66 15 A70 18 -18 0 0 66 -8" fill="none" stroke="#FFE9A3" stroke-width="8" stroke-linecap="round" opacity="0.88" />
-          </g>
-
-          <!-- 右上薄荷藍小星球 -->
-          <g class="float-planet-right" transform="translate(1152, 134)">
-            <circle cx="0" cy="0" r="30" fill="url(#planetMint)" />
-            <circle cx="-9" cy="-8" r="7" fill="#B8F5FF" opacity="0.6" />
-            <circle cx="11" cy="9" r="5" fill="#468CE6" opacity="0.45" />
-            <circle cx="4" cy="-14" r="3.5" fill="#B8F5FF" opacity="0.5" />
-          </g>
-
-          <!-- 遠方彎月 -->
-          <g transform="translate(268, 72)" opacity="0.82">
-            <path d="M18 0 A20 20 0 1 0 18 36 A15 15 0 1 1 18 0 Z" fill="#FFF2A8" />
-          </g>
-
-          <!-- 底部柔和月球地平線 -->
-          <path d="M0 618 Q280 562 620 604 T1280 590 L1280 720 L0 720 Z" fill="url(#moonSurface)" opacity="0.72" />
-          <path d="M0 648 Q380 605 780 646 T1280 632 L1280 720 L0 720 Z" fill="url(#moonFront)" opacity="0.9" />
-
-          <!-- 可愛月球小隕石坑 -->
-          <ellipse cx="148" cy="668" rx="34" ry="11" fill="#2A306A" opacity="0.65" />
-          <ellipse cx="222" cy="686" rx="18" ry="6" fill="#2A306A" opacity="0.55" />
-          <ellipse cx="1085" cy="666" rx="36" ry="12" fill="#2A306A" opacity="0.65" />
-          <ellipse cx="1156" cy="688" rx="16" ry="5.5" fill="#2A306A" opacity="0.55" />
-          <ellipse cx="640" cy="688" rx="28" ry="8" fill="#2A306A" opacity="0.48" />
-        </svg>
       </div>
 
       <!-- 彩帶星光 Canvas（過關慶祝） -->
