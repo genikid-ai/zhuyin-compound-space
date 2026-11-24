@@ -40,153 +40,18 @@
   const CHEER_BUBBLES = ["答對了！超級棒！🎉", "太厲害了！得星星！⭐", "太空小天才！🌟", "耶！完全正確！🚀"];
   const RETRY_BUBBLES = ["沒關係，再找找看！✨", "再看仔細一點喔！🪐", "加油！換另一張試試！💛", "差一點點喔！🚀"];
 
-  /* ==================== 2. 原創太空夥伴 SVG ==================== */
-  const MASCOT_SVGS = {
-    astroBear: `
-      <svg class="mascot-svg" viewBox="0 0 180 190">
-        <!-- 太空背包 -->
-        <rect x="44" y="114" width="92" height="58" rx="18" fill="#88A4E6"/>
-        <!-- 身體太空衣 -->
-        <ellipse cx="90" cy="148" rx="44" ry="34" fill="#F4F7FF" stroke="#CBD8FA" stroke-width="3"/>
-        <rect x="64" y="132" width="52" height="32" rx="12" fill="#DCE8FF"/>
-        <polygon points="90,138 93,146 101,146 95,151 97,159 90,154 83,159 85,151 79,146 87,146" fill="#FFD84D" stroke="#E59A1A" stroke-width="1.2"/>
-        <!-- 手臂 -->
-        <ellipse cx="42" cy="140" rx="14" ry="22" transform="rotate(28 42 140)" fill="#F4F7FF" stroke="#CBD8FA" stroke-width="3"/>
-        <circle cx="32" cy="153" r="10" fill="#FF9E6D"/>
-        <ellipse cx="138" cy="136" rx="14" ry="22" transform="rotate(-38 138 136)" fill="#F4F7FF" stroke="#CBD8FA" stroke-width="3"/>
-        <circle cx="150" cy="122" r="10" fill="#FF9E6D"/>
-        <!-- 太空頭盔外圈 -->
-        <circle cx="90" cy="80" r="60" fill="rgba(166, 238, 255, 0.28)" stroke="#9CF2FF" stroke-width="5"/>
-        <!-- 小熊耳朵 -->
-        <circle cx="52" cy="48" r="17" fill="#B87D4E"/>
-        <circle cx="52" cy="48" r="9" fill="#EBBF99"/>
-        <circle cx="128" cy="48" r="17" fill="#B87D4E"/>
-        <circle cx="128" cy="48" r="9" fill="#EBBF99"/>
-        <!-- 小熊頭 -->
-        <ellipse cx="90" cy="82" rx="44" ry="39" fill="#C98D5B"/>
-        <ellipse cx="90" cy="94" rx="20" ry="15" fill="#FAE4CE"/>
-        <ellipse cx="90" cy="87" rx="7" ry="5" fill="#4A2E1B"/>
-        <path d="M83 96 Q90 103 97 96" fill="none" stroke="#4A2E1B" stroke-width="3" stroke-linecap="round"/>
-        <circle cx="71" cy="76" r="5.5" fill="#3B2415"/>
-        <circle cx="73" cy="74" r="2" fill="#FFFFFF"/>
-        <circle cx="109" cy="76" r="5.5" fill="#3B2415"/>
-        <circle cx="111" cy="74" r="2" fill="#FFFFFF"/>
-        <ellipse cx="59" cy="88" rx="7.5" ry="4.5" fill="#FF9E9E" opacity="0.7"/>
-        <ellipse cx="121" cy="88" rx="7.5" ry="4.5" fill="#FF9E9E" opacity="0.7"/>
-        <!-- 頭盔高光 -->
-        <path d="M46 58 A48 48 0 0 1 78 32" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.72"/>
-        <!-- 領環 -->
-        <rect x="52" y="124" width="76" height="12" rx="6" fill="#FF9E6D"/>
-      </svg>
-    `,
-    astroBunny: `
-      <svg class="mascot-svg" viewBox="0 0 180 195">
-        <!-- 太空背包 -->
-        <rect x="46" y="122" width="88" height="54" rx="16" fill="#B994FF"/>
-        <!-- 身體太空衣 -->
-        <ellipse cx="90" cy="154" rx="42" ry="32" fill="#FFF8FF" stroke="#E0D2FA" stroke-width="3"/>
-        <rect x="66" y="138" width="48" height="30" rx="12" fill="#F2E8FF"/>
-        <circle cx="80" cy="153" r="5" fill="#5AE2FF"/>
-        <circle cx="94" cy="153" r="5" fill="#FFD84D"/>
-        <circle cx="106" cy="153" r="4" fill="#FF8DA1"/>
-        <!-- 手臂 -->
-        <ellipse cx="44" cy="144" rx="13" ry="20" transform="rotate(34 44 144)" fill="#FFF8FF" stroke="#E0D2FA" stroke-width="3"/>
-        <circle cx="33" cy="130" r="9.5" fill="#FF8DA1"/>
-        <ellipse cx="136" cy="146" rx="13" ry="20" transform="rotate(-28 136 146)" fill="#FFF8FF" stroke="#E0D2FA" stroke-width="3"/>
-        <circle cx="146" cy="158" r="9.5" fill="#FF8DA1"/>
-        <!-- 寬大太空頭盔 -->
-        <circle cx="90" cy="80" r="62" fill="rgba(255, 224, 245, 0.25)" stroke="#FFD1F0" stroke-width="5"/>
-        <!-- 長耳朵（在頭盔裡） -->
-        <ellipse cx="70" cy="48" rx="11" ry="27" transform="rotate(-10 70 48)" fill="#FFFFFF" stroke="#E8D8E4" stroke-width="2.5"/>
-        <ellipse cx="70" cy="50" rx="6" ry="18" transform="rotate(-10 70 50)" fill="#FFB8CE"/>
-        <ellipse cx="110" cy="48" rx="11" ry="27" transform="rotate(10 110 48)" fill="#FFFFFF" stroke="#E8D8E4" stroke-width="2.5"/>
-        <ellipse cx="110" cy="50" rx="6" ry="18" transform="rotate(10 110 50)" fill="#FFB8CE"/>
-        <!-- 兔兔頭 -->
-        <ellipse cx="90" cy="90" rx="40" ry="34" fill="#FFFFFF" stroke="#EADAE6" stroke-width="2.5"/>
-        <polygon points="85,91 95,91 90,97" fill="#FF85A2"/>
-        <path d="M83 101 Q90 107 97 101" fill="none" stroke="#5C4454" stroke-width="2.8" stroke-linecap="round"/>
-        <circle cx="73" cy="84" r="5.2" fill="#4A3548"/>
-        <circle cx="75" cy="82" r="1.8" fill="#FFFFFF"/>
-        <circle cx="107" cy="84" r="5.2" fill="#4A3548"/>
-        <circle cx="109" cy="82" r="1.8" fill="#FFFFFF"/>
-        <ellipse cx="61" cy="94" rx="7.5" ry="4.5" fill="#FFA8C2" opacity="0.72"/>
-        <ellipse cx="119" cy="94" rx="7.5" ry="4.5" fill="#FFA8C2" opacity="0.72"/>
-        <!-- 頭盔高光 -->
-        <path d="M44 58 A50 50 0 0 1 78 28" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.72"/>
-        <!-- 領環 -->
-        <rect x="54" y="130" width="72" height="11" rx="5.5" fill="#A67CFF"/>
-      </svg>
-    `,
-    astroCat: `
-      <svg class="mascot-svg" viewBox="0 0 180 190">
-        <!-- 太空背包 -->
-        <rect x="46" y="118" width="88" height="54" rx="16" fill="#4AC8E8"/>
-        <!-- 身體太空衣 -->
-        <ellipse cx="90" cy="150" rx="43" ry="33" fill="#F4FCFF" stroke="#C0ECFA" stroke-width="3"/>
-        <rect x="65" y="135" width="50" height="30" rx="12" fill="#D9F5FF"/>
-        <polygon points="90,141 93,148 100,148 94,152 96,159 90,155 84,159 86,152 80,148 87,148" fill="#FF9E44"/>
-        <!-- 手臂 -->
-        <ellipse cx="43" cy="140" rx="13" ry="20" transform="rotate(26 43 140)" fill="#F4FCFF" stroke="#C0ECFA" stroke-width="3"/>
-        <circle cx="34" cy="153" r="9.5" fill="#4CE095"/>
-        <ellipse cx="137" cy="138" rx="13" ry="20" transform="rotate(-34 137 138)" fill="#F4FCFF" stroke="#C0ECFA" stroke-width="3"/>
-        <circle cx="148" cy="126" r="9.5" fill="#4CE095"/>
-        <!-- 頭盔 -->
-        <circle cx="90" cy="80" r="59" fill="rgba(140, 245, 224, 0.24)" stroke="#8CF5DF" stroke-width="5"/>
-        <!-- 貓耳 -->
-        <polygon points="50,66 56,36 80,54" fill="#FFAE52"/>
-        <polygon points="56,62 60,44 73,54" fill="#FFE0BD"/>
-        <polygon points="130,66 124,36 100,54" fill="#FFAE52"/>
-        <polygon points="124,62 120,44 107,54" fill="#FFE0BD"/>
-        <!-- 橘貓臉 -->
-        <ellipse cx="90" cy="84" rx="43" ry="36" fill="#FFB861"/>
-        <ellipse cx="90" cy="95" rx="22" ry="16" fill="#FFF4E4"/>
-        <polygon points="85,89 95,89 90,94" fill="#FF7B89"/>
-        <path d="M82 99 Q86 104 90 99 Q94 104 98 99" fill="none" stroke="#5A3921" stroke-width="2.6" stroke-linecap="round"/>
-        <circle cx="71" cy="79" r="5.5" fill="#3B2415"/>
-        <circle cx="73" cy="77" r="2" fill="#FFFFFF"/>
-        <circle cx="109" cy="79" r="5.5" fill="#3B2415"/>
-        <circle cx="111" cy="77" r="2" fill="#FFFFFF"/>
-        <ellipse cx="59" cy="89" rx="7" ry="4" fill="#FF8E9E" opacity="0.65"/>
-        <ellipse cx="121" cy="89" rx="7" ry="4" fill="#FF8E9E" opacity="0.65"/>
-        <!-- 頭盔高光 -->
-        <path d="M46 58 A48 48 0 0 1 78 32" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.72"/>
-        <!-- 領環 -->
-        <rect x="54" y="126" width="72" height="11" rx="5.5" fill="#35C6E8"/>
-      </svg>
-    `,
-    spaceAlien: `
-      <svg class="mascot-svg" viewBox="0 0 180 190">
-        <!-- 發光雙觸角 -->
-        <line x1="68" y1="46" x2="54" y2="22" stroke="#62E8A8" stroke-width="6" stroke-linecap="round"/>
-        <circle cx="52" cy="18" r="9" fill="#FFD84D"/>
-        <line x1="112" y1="46" x2="126" y2="22" stroke="#62E8A8" stroke-width="6" stroke-linecap="round"/>
-        <circle cx="128" cy="18" r="9" fill="#FFD84D"/>
-        <!-- 身體 -->
-        <ellipse cx="90" cy="146" rx="42" ry="34" fill="#7D68F5"/>
-        <ellipse cx="90" cy="150" rx="26" ry="22" fill="#A698FF"/>
-        <polygon points="90,138 93,145 100,145 94,149 96,156 90,152 84,156 86,149 80,145 87,145" fill="#FFD84D"/>
-        <!-- 小手 -->
-        <ellipse cx="44" cy="136" rx="12" ry="20" transform="rotate(35 44 136)" fill="#62E8A8"/>
-        <ellipse cx="136" cy="136" rx="12" ry="20" transform="rotate(-35 136 136)" fill="#62E8A8"/>
-        <!-- 圓潤微笑綠星頭 -->
-        <ellipse cx="90" cy="84" rx="52" ry="44" fill="#68EDAE"/>
-        <ellipse cx="90" cy="76" rx="40" ry="30" fill="#82F5BF" opacity="0.45"/>
-        <!-- 可愛大眼 -->
-        <circle cx="68" cy="80" r="12" fill="#FFFFFF"/>
-        <circle cx="69" cy="80" r="6.5" fill="#232B54"/>
-        <circle cx="71" cy="77" r="2.3" fill="#FFFFFF"/>
-        <circle cx="112" cy="80" r="12" fill="#FFFFFF"/>
-        <circle cx="111" cy="80" r="6.5" fill="#232B54"/>
-        <circle cx="113" cy="77" r="2.3" fill="#FFFFFF"/>
-        <!-- 微笑 -->
-        <path d="M76 99 Q90 112 104 99" fill="none" stroke="#1E6B47" stroke-width="4" stroke-linecap="round"/>
-        <ellipse cx="52" cy="95" rx="8.5" ry="5" fill="#FF9EB8" opacity="0.72"/>
-        <ellipse cx="128" cy="95" rx="8.5" ry="5" fill="#FF9EB8" opacity="0.72"/>
-        <!-- 領帶星環 -->
-        <rect x="56" y="122" width="68" height="10" rx="5" fill="#5AE2FF"/>
-      </svg>
-    `
+  /* ==================== 2. 溫暖繪本風太空夥伴插畫 ==================== */
+  const MASCOT_ART = {
+    astroBear:  { src: "assets/mascot-bear.png",  alt: "太空小熊" },
+    astroBunny: { src: "assets/mascot-bunny.png", alt: "太空小兔" },
+    astroCat:   { src: "assets/mascot-cat.png",   alt: "太空橘貓" },
+    spaceAlien: { src: "assets/mascot-alien.png", alt: "微笑小綠星人" }
   };
+
+  function renderMascot(key) {
+    const m = MASCOT_ART[key] || MASCOT_ART.astroBear;
+    return `<img class="mascot-img" src="${m.src}" alt="${m.alt}" decoding="async" />`;
+  }
 
   const MASCOT_PAIRS = [
     ["astroBear", "astroBunny"],
@@ -680,9 +545,9 @@
     // 輪替太空夥伴
     const pair = MASCOT_PAIRS[state.pairIdx % MASCOT_PAIRS.length];
     state.pairIdx++;
-    el.mascotLeftSvg.innerHTML = MASCOT_SVGS[pair[0]];
-    el.mascotRightSvg.innerHTML = MASCOT_SVGS[pair[1]];
-    el.matchMascotSvg.innerHTML = MASCOT_SVGS[pair[0]];
+    el.mascotLeftSvg.innerHTML = renderMascot(pair[0]);
+    el.mascotRightSvg.innerHTML = renderMascot(pair[1]);
+    el.matchMascotSvg.innerHTML = renderMascot(pair[0]);
 
     el.bubbleLeft.textContent = pickRandom(READ_BUBBLES_LEFT);
     el.bubbleRight.textContent = pickRandom(READ_BUBBLES_RIGHT);
@@ -985,7 +850,7 @@
 
     // 四位太空夥伴大集合
     el.victoryMascots.innerHTML = ["astroBear", "astroBunny", "astroCat", "spaceAlien"]
-      .map((key) => `<div class="victory-mascot-item">${MASCOT_SVGS[key]}</div>`)
+      .map((key) => `<div class="victory-mascot-item">${renderMascot(key)}</div>`)
       .join("");
 
     // 本回合複習小圖卡總覽（點擊可放大）
@@ -1181,8 +1046,8 @@
   });
 
   /* ==================== 18. 初始啟動 ==================== */
-  el.homeMascotLeft.innerHTML = MASCOT_SVGS.astroBear;
-  el.homeMascotRight.innerHTML = MASCOT_SVGS.astroBunny;
+  el.homeMascotLeft.innerHTML = renderMascot("astroBear");
+  el.homeMascotRight.innerHTML = renderMascot("astroBunny");
   updateCountOptions();
   updateStageScale();
 })();
