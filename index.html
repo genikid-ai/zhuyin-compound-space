@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>結合韻大冒險・太空星際探險</title>
   <link rel="preload" as="image" href="assets/space-bg.jpg" />
   <link rel="preload" as="image" href="assets/mascot-bear.png" />
@@ -34,8 +34,8 @@
         <div class="shooting-star ss2"></div>
       </div>
 
-      <!-- 彩帶星光 Canvas（過關慶祝） -->
-      <canvas id="confetti-canvas" class="confetti-canvas" width="1280" height="720"></canvas>
+      <!-- 彩帶星光 Canvas（過關慶祝，由 JS 依視窗大小動態調整） -->
+      <canvas id="confetti-canvas" class="confetti-canvas"></canvas>
 
       <!-- 飛星與粒子動畫層 -->
       <div id="fx-layer" class="fx-layer" aria-hidden="true"></div>
