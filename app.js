@@ -320,19 +320,14 @@
     }
   }
 
-  /* ==================== 7. 16:9 舞台等比縮放 ==================== */
-  function updateStageScale() {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const scale = Math.min(vw / 1280, vh / 720);
-    el.stage.style.transform = `scale(${scale})`;
-
-    const ratioDiff = Math.abs(vw / vh - 16 / 9);
-    el.stage.classList.toggle("is-exact-fit", ratioDiff < 0.02 || !!document.fullscreenElement);
+  /* ==================== 7. 動態同步彩帶畫布尺寸 ==================== */
+  function syncCanvasSize() {
+    el.confettiCanvas.width = window.innerWidth;
+    el.confettiCanvas.height = window.innerHeight;
   }
 
-  window.addEventListener("resize", updateStageScale);
-  document.addEventListener("fullscreenchange", updateStageScale);
+  window.addEventListener("resize", syncCanvasSize);
+  document.addEventListener("fullscreenchange", syncCanvasSize);
 
   /* ==================== 8. 共用工具按鈕（字體 / 音效 / 全螢幕） ==================== */
   function toggleFont() {
@@ -437,6 +432,7 @@
     if (name !== "victory") {
       stopConfetti();
     }
+    window.scrollTo(0, 0);
   }
 
   /* ==================== 11. 智慧干擾項挑選 ==================== */
@@ -575,6 +571,7 @@
     el.gameArena.dataset.phase = phaseName;
     el.phaseRead.classList.toggle("active", phaseName === "read");
     el.phaseMatch.classList.toggle("active", phaseName === "match");
+    window.scrollTo(0, 0);
   }
 
   /* 階段一 -> 階段二：展開圖片選項 */
@@ -783,18 +780,17 @@
 
   /* ==================== 14. 飛星與星光粒子特效 ==================== */
   function getStageCoords(element) {
-    const stageRect = el.stage.getBoundingClientRect();
     const rect = element.getBoundingClientRect();
-    const scaleX = 1280 / stageRect.width;
-    const scaleY = 720 / stageRect.height;
     return {
-      x: (rect.left - stageRect.left + rect.width / 2) * scaleX,
-      y: (rect.top - stageRect.top + rect.height / 2) * scaleY
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2
     };
   }
 
   function launchFlyingStar(sourceEl, onLand) {
-    const start = sourceEl ? getStageCoords(sourceEl) : { x: 640, y: 420 };
+    const start = sourceEl
+      ? getStageCoords(sourceEl)
+      : { x: window.innerWidth / 2, y: window.innerHeight * 0.55 };
 
     const targetSlot = el.starProgressWrap.querySelector(`.star-slot[data-slot="${state.earnedStars - 1}"]`)
       || el.starProgressWrap;
@@ -803,8 +799,8 @@
     const star = document.createElement("div");
     star.className = "flying-star";
     star.textContent = "⭐";
-    star.style.left = `${start.x - 23}px`;
-    star.style.top = `${start.y - 23}px`;
+    star.style.left = `${start.x - 20}px`;
+    star.style.top = `${start.y - 20}px`;
     el.fxLayer.appendChild(star);
 
     requestAnimationFrame(() => {
@@ -881,12 +877,16 @@
 
   function startConfetti() {
     stopConfetti();
+    syncCanvasSize();
     const ctx = el.confettiCanvas.getContext("2d");
+    const w = el.confettiCanvas.width || window.innerWidth;
+    const h = el.confettiCanvas.height || window.innerHeight;
     const colors = ["#FFD84D", "#5AE2FF", "#4CE095", "#FF876F", "#C29BFF", "#FFF4B8"];
-    confettiPieces = Array.from({ length: 90 }, () => ({
-      x: Math.random() * 1280,
-      y: -20 - Math.random() * 420,
-      w: 9 + Math.random() * 9,
+    const pieceCount = w < 640 ? 55 : 90;
+    confettiPieces = Array.from({ length: pieceCount }, () => ({
+      x: Math.random() * w,
+      y: -20 - Math.random() * (h * 0.6),
+      w: 8 + Math.random() * 9,
       h: 6 + Math.random() * 6,
       vx: (Math.random() - 0.5) * 2.2,
       vy: 2.0 + Math.random() * 2.7,
@@ -896,14 +896,16 @@
     }));
 
     function draw() {
-      ctx.clearRect(0, 0, 1280, 720);
+      const cw = el.confettiCanvas.width || window.innerWidth;
+      const ch = el.confettiCanvas.height || window.innerHeight;
+      ctx.clearRect(0, 0, cw, ch);
       for (const p of confettiPieces) {
         p.x += p.vx;
         p.y += p.vy;
         p.rot += p.vrot;
-        if (p.y > 740) {
+        if (p.y > ch + 20) {
           p.y = -20;
-          p.x = Math.random() * 1280;
+          p.x = Math.random() * cw;
         }
         ctx.save();
         ctx.translate(p.x, p.y);
@@ -924,7 +926,7 @@
       confettiReqId = null;
     }
     const ctx = el.confettiCanvas.getContext("2d");
-    ctx.clearRect(0, 0, 1280, 720);
+    ctx.clearRect(0, 0, el.confettiCanvas.width, el.confettiCanvas.height);
   }
 
   /* ==================== 16. 彈窗（返回確認 & 圖卡放大） ==================== */
@@ -1049,5 +1051,5 @@
   el.homeMascotLeft.innerHTML = renderMascot("astroBear");
   el.homeMascotRight.innerHTML = renderMascot("astroBunny");
   updateCountOptions();
-  updateStageScale();
+  syncCanvasSize();
 })();
